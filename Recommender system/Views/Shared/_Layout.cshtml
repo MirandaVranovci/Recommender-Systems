@@ -1,0 +1,513 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SR</title>
+    @{
+        Recommender_system.Models.SRDB db = new Recommender_system.Models.SRDB();
+        string idfinal = "";
+    }
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- end: META -->
+    <!-- start: GOOGLE FONTS -->
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/Content/cms/vendor/bootstrap/css/bootstrap.min.css">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">*@
+    <link rel="stylesheet" href="~/Content/cms/vendor/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/cms/vendor/themify-icons/themify-icons.min.css">
+    <link href="~/Content/cms/vendor/animate.css/animate.min.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/perfect-scrollbar/perfect-scrollbar.min.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/switchery/switchery.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="~/Content/cms/assets/css/styles.css">
+    <link rel="stylesheet" href="~/Content/cms/assets/css/plugins.css">
+    <link rel="stylesheet" href="~/Content/cms/themes/theme-1.css" id="skin_color" />
+    <link href="~/Content/cms/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.0.min.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/bootstrap-rating/bootstrap-rating.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/select2/select2.min.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/DataTables/css/DT_bootstrap.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/select2/select2.min.css" rel="stylesheet" media="screen">
+
+</head>
+<body>
+
+    <div id="app">
+        <!-- sidebar -->
+        <div class="sidebar app-aside" id="sidebar">
+            <div class="sidebar-container perfect-scrollbar">
+                <nav>
+                    <!-- start: SEARCH FORM -->
+                    <div class="search-form">
+                        <a class="s-open" href="#">
+                            <i class="ti-search"></i>
+                        </a>
+                        <form class="navbar-form" role="search">
+                            <a class="s-remove" href="#" target=".navbar-form">
+                                <i class="ti-close"></i>
+                            </a>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <button class="btn search-button" type="submit">
+                                    <i class="ti-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <ul class="main-navigation-menu">
+                        @{
+
+                            var lista = (from sys in db.SYS_MENU
+                                         where sys.ParentID == null
+                                         orderby sys.Renditja
+                                         select sys).ToList();
+                        }
+                        @foreach (var item in lista)
+                        {
+                            string url = HttpContext.Current.Request.Url.PathAndQuery.Replace("/", "").ToString().ToLower();
+                            string url1 = Request.Url.AbsolutePath;
+                            bool l;
+                            var id = db.SYS_MENU.Where(q => q.ParentID == item.ID).ToList();
+
+                            if (id.Any())
+                            {
+                                l = true;
+                                foreach (var item1 in id)
+                                {
+                                    if (item1.Controller != null)
+                                    {
+                                        if (item1.Controller.ToLower() == url1.Split('/')[1].ToLower())
+                                        {
+                                            idfinal = item1.Controller;
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        idfinal = "//";
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                l = false;
+                                if (item.Controller != null)
+                                {
+                                    idfinal = item.Controller;
+                                }
+                                else
+                                {
+                                    idfinal = "//";
+                                }
+
+                            }
+
+                            <li id="@idfinal.ToLower()" class="lista">
+
+
+                                @if (!l)
+                                {
+                                    <a href="@Url.Action(item.ActionName,item.Controller)" class="">
+                                        <div class="item-content">
+                                            <div class="item-media">
+                                                <i class="@item.HtmlClass"></i>
+                                            </div>
+                                            <div class="item-inner">
+                                                <span class="title"> @item.Pershkrimi </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                                else
+                                { <a href="#" class="">
+                                        <div class="item-content">
+                                            <div class="item-media">
+                                                <i class="@item.HtmlClass"></i>
+                                            </div>
+                                            <div class="item-inner">
+                                                <span class="title"> @item.Pershkrimi </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        @{
+                                            var submenyslista = (from sys in db.SYS_MENU
+                                                                 where sys.ParentID == item.ID
+                                                                 orderby sys.Renditja
+                                                                 select sys).ToList();
+                                        }
+                                        @foreach (var submenys in submenyslista)
+                                        {
+                                            string linkid = "";
+                                            if (submenys.Controller != null && submenys.ActionName != null)
+                                            {
+                                                linkid = submenys.Controller.ToLower() + "_" + submenys.ActionName.ToLower();
+                                            }
+                                            //
+                                            <li @*id="lichild_@submenys.ID"*@ id=@linkid class="">
+
+                                                {
+                                                <a @*class="LoadBuildingDetail"*@ href="@Url.Action(submenys.ActionName,submenys.Controller)" @*data-id="@item.ID" data-childid="@submenys.ID"*@>
+                                                    <i class="@submenys.HtmlClass"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @submenys.Pershkrimi
+                                                </a>
+
+
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+
+
+                            </li>
+                        }
+
+                    </ul>
+                    <div class="wrapper">
+                        <a href="documentation.html" class="button-o">
+                            <i class="ti-help"></i>
+                            <span>Documentation</span>
+                        </a>
+                    </div>
+                    <!-- end: DOCUMENTATION BUTTON -->
+                </nav>
+            </div>
+        </div>
+        <!-- / sidebar -->
+        <div class="app-content">
+            <!-- start: TOP NAVBAR -->
+            <header class="navbar navbar-default navbar-static-top">
+                <!-- start: NAVBAR HEADER -->
+                <div class="navbar-header">
+                    <a href="#" class="sidebar-mobile-toggler pull-left hidden-md hidden-lg" class="btn btn-navbar sidebar-toggle" data-toggle-class="app-slide-off" data-toggle-target="#app" data-toggle-click-outside="#sidebar">
+                        <i class="ti-align-justify"></i>
+                    </a>
+                    <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                        SR
+                    </a>
+
+                    <a href="#" class="sidebar-toggler pull-right visible-md visible-lg" data-toggle-class="app-sidebar-closed" data-toggle-target="#app">
+                        <i class="ti-align-justify"></i>
+                    </a>
+                    <a class="pull-right menu-toggler visible-xs-block" id="menu-toggler" data-toggle="collapse" href=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <i class="ti-view-grid"></i>
+                    </a>
+                </div>
+                <!-- end: NAVBAR HEADER -->
+                <!-- start: NAVBAR COLLAPSE -->
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-right">
+                        <!-- start: MESSAGES DROPDOWN -->
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="dot-badge partition-red"></span> <i class="ti-comment"></i> <span>MESSAGES</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-light dropdown-messages dropdown-large"></ul>
+                        </li>
+                        <!-- end: MESSAGES DROPDOWN -->
+                        <!-- start: ACTIVITIES DROPDOWN -->
+                        <li>
+                            <a href="javascript:void(0);" onclick="javascript:introJs().start();" style="float: right;">
+                                <i class="ti-help" style="font-size: 1.4em;"></i>help
+                            </a>
+                        </li>
+                        <!-- end: ACTIVITIES DROPDOWN -->
+                        <!-- start: LANGUAGE SWITCHER -->
+                        <!-- start: LANGUAGE SWITCHER -->
+                        <!-- start: USER OPTIONS DROPDOWN -->
+                        <li class="dropdown current-user user-menu">
+
+                        </li>
+                        <!-- end: USER OPTIONS DROPDOWN -->
+                    </ul>
+                    <!-- start: MENU TOGGLER FOR MOBILE DEVICES -->
+                    <div class="close-handle visible-xs-block menu-toggler" data-toggle="collapse" href=".navbar-collapse">
+                        <div class="arrow-left"></div>
+                        <div class="arrow-right"></div>
+                    </div>
+                    <!-- end: MENU TOGGLER FOR MOBILE DEVICES -->
+                </div>
+                <a class="dropdown-off-sidebar sidebar-mobile-toggler hidden-md hidden-lg" data-toggle-class="app-offsidebar-open" data-toggle-target="#app" data-toggle-click-outside="#off-sidebar">
+                    &nbsp;
+                </a>
+                <a class="dropdown-off-sidebar hidden-sm hidden-xs" data-toggle-class="app-offsidebar-open" data-toggle-target="#app" data-toggle-click-outside="#off-sidebar">
+                    &nbsp;
+                </a>
+                <!-- end: NAVBAR COLLAPSE -->
+            </header>
+            <!-- end: TOP NAVBAR -->
+            <div class="main-content">
+                <div class="wrap-content container">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        <!-- start: FOOTER -->
+        <footer>
+            <div class="footer-inner">
+                <div class="pull-left">
+                    &copy; <span class="current-year"></span><span class="text-bold text-uppercase"> SR</span>. <span>All rights reserved</span>
+                </div>
+                <div class="pull-right">
+                    <span class="go-top"><i class="ti-angle-up"></i></span>
+                </div>
+            </div>
+        </footer>
+        <!-- end: FOOTER -->
+        <!-- start: OFF-SIDEBAR -->
+        <div id="off-sidebar" class="sidebar">
+            <div class="sidebar-wrapper">
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="active">
+                        <a href="#off-users" aria-controls="off-users" role="tab" data-toggle="tab">
+                            <i class="ti-comments"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#off-settings" aria-controls="off-settings" role="tab" data-toggle="tab">
+                            <i class="ti-settings"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="off-users">
+                        <div id="users" toggleable active-class="chat-open">
+                            <div class="users-list">
+                                <div class="sidebar-content perfect-scrollbar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="off-settings">
+                        <div class="sidebar-content perfect-scrollbar">
+                            <h5 class="sidebar-title">General Settings</h5>
+                            <ul class="media-list">
+
+
+                                <li class="media">
+                                    <div class="padding-10">
+                                        <div class="display-table-cell">
+                                            <input type="checkbox" class="js-switch" checked />
+                                        </div>
+                                        <span class="display-table-cell vertical-align-middle padding-left-10">E-mail Alerts</span>
+                                    </div>
+                                </li>
+
+                            </ul>
+                            <div class="save-options">
+                                <button class="btn btn-success">
+                                    <i class="icon-settings"></i><span>Save Changes</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end: OFF-SIDEBAR -->
+        <!-- start: SETTINGS -->
+        <div class="settings panel panel-default hidden-xs hidden-sm" id="settings">
+
+            <div class="panel-heading">
+                Style Selector
+            </div>
+            <div class="panel-body">
+                <!-- start: FIXED HEADER -->
+                <div class="setting-box clearfix">
+                    <span class="setting-title pull-left"> Fixed header</span>
+                    <span class="setting-switch pull-right">
+                        <input type="checkbox" class="js-switch" id="fixed-header" />
+                    </span>
+                </div>
+                <!-- end: FIXED HEADER -->
+                <!-- start: FIXED SIDEBAR -->
+                <div class="setting-box clearfix">
+                    <span class="setting-title pull-left">Fixed sidebar</span>
+                    <span class="setting-switch pull-right">
+                        <input type="checkbox" class="js-switch" id="fixed-sidebar" />
+                    </span>
+                </div>
+                <!-- end: FIXED SIDEBAR -->
+                <!-- start: CLOSED SIDEBAR -->
+                <div class="setting-box clearfix">
+                    <span class="setting-title pull-left">Closed sidebar</span>
+                    <span class="setting-switch pull-right">
+                        <input type="checkbox" class="js-switch" id="closed-sidebar" />
+                    </span>
+                </div>
+                <!-- end: CLOSED SIDEBAR -->
+                <!-- start: FIXED FOOTER -->
+                <div class="setting-box clearfix">
+                    <span class="setting-title pull-left">Fixed footer</span>
+                    <span class="setting-switch pull-right">
+                        <input type="checkbox" class="js-switch" id="fixed-footer" />
+                    </span>
+                </div>
+                <!-- end: FIXED FOOTER -->
+                <!-- start: THEME SWITCHER -->
+                <div class="colors-row setting-box">
+                    <div class="color-theme theme-1">
+                        <div class="color-layout">
+                            <label>
+                                <input type="radio" name="setting-theme" value="theme-1">
+                                <span class="ti-check"></span>
+                                <span class="split header"> <span class="color th-header"></span> <span class="color th-collapse"></span> </span>
+                                <span class="split"> <span class="color th-sidebar"><i class="element"></i></span> <span class="color th-body"></span> </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="color-theme theme-2">
+                        <div class="color-layout">
+                            <label>
+                                <input type="radio" name="setting-theme" value="theme-2">
+                                <span class="ti-check"></span>
+                                <span class="split header"> <span class="color th-header"></span> <span class="color th-collapse"></span> </span>
+                                <span class="split"> <span class="color th-sidebar"><i class="element"></i></span> <span class="color th-body"></span> </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="colors-row setting-box">
+                    <div class="color-theme theme-3">
+                        <div class="color-layout">
+                            <label>
+                                <input type="radio" name="setting-theme" value="theme-3">
+                                <span class="ti-check"></span>
+                                <span class="split header"> <span class="color th-header"></span> <span class="color th-collapse"></span> </span>
+                                <span class="split"> <span class="color th-sidebar"><i class="element"></i></span> <span class="color th-body"></span> </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="color-theme theme-4">
+                        <div class="color-layout">
+                            <label>
+                                <input type="radio" name="setting-theme" value="theme-4">
+                                <span class="ti-check"></span>
+                                <span class="split header"> <span class="color th-header"></span> <span class="color th-collapse"></span> </span>
+                                <span class="split"> <span class="color th-sidebar"><i class="element"></i></span> <span class="color th-body"></span> </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="colors-row setting-box">
+                    <div class="color-theme theme-5">
+                        <div class="color-layout">
+                            <label>
+                                <input type="radio" name="setting-theme" value="theme-5">
+                                <span class="ti-check"></span>
+                                <span class="split header"> <span class="color th-header"></span> <span class="color th-collapse"></span> </span>
+                                <span class="split"> <span class="color th-sidebar"><i class="element"></i></span> <span class="color th-body"></span> </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="color-theme theme-6">
+                        <div class="color-layout">
+                            <label>
+                                <input type="radio" name="setting-theme" value="theme-6">
+                                <span class="ti-check"></span>
+                                <span class="split header"> <span class="color th-header"></span> <span class="color th-collapse"></span> </span>
+                                <span class="split"> <span class="color th-sidebar"><i class="element"></i></span> <span class="color th-body"></span> </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- end: THEME SWITCHER -->
+            </div>
+        </div>
+        <!-- end: SETTINGS -->
+    </div>
+
+
+
+    <div class="modal modal-default fade" id="modalNotify">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"><span id="notifyicon" class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;<span id="notifyTitle"></span></h4>
+                </div>
+
+                @*<div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline">Save changes</button>
+                    </div>*@
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal" id="mbyllnotify" style="display:none">Close</button>
+    </div>
+    <!-- start: MAIN JAVASCRIPTS -->
+    <script src="~/Content/cms/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/cms/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/cms/vendor/modernizr/modernizr.js"></script>
+    <script src="~/Content/cms/vendor/jquery-cookie/jquery.cookie.js"></script>
+    <script src="~/Content/cms/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="~/Content/cms/vendor/switchery/switchery.min.js"></script>
+    <!-- end: MAIN JAVASCRIPTS -->
+    <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+    <script src="~/Content/cms/vendor/Chart.js/Chart.min.js"></script>
+    <script src="~/Content/cms/vendor/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+    <!-- start: CLIP-TWO JAVASCRIPTS -->
+    <script src="~/Content/cms/assets/js/main.js"></script>
+    <!-- start: JavaScript Event Handlers for this page -->
+    <script src="~/Content/cms/assets/js/index.js"></script>
+    <script>
+           var loaduserinfo = function () {
+
+            $.ajax({
+                url: "@Url.Action("GetUserInfo","Home")",
+                cache: false,
+                type: "GET",
+                dataType: "html",
+                success: function (rs) {
+                    $(".user-menu").html(rs);
+                },
+                error: function (jqXHR, error, errorThrown) {
+                    if (jqXHR.status && jqXHR.status == 400) {
+                        console.log(jqXHR.responseText);
+                    } else {
+                        console.log("Diçka shkoi keq...");
+                    }
+                }
+            });
+        };
+        </script>
+         <script src="~/Content/cms/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="~/Content/cms/vendor/twbs-pagination/jquery.twbsPagination.min.js"></script>
+    <script src="~/Content/cms/vendor/bootstrap-rating/bootstrap-rating.min.js"></script>
+    <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+    <script src="~/Content/cms/assets/js/main.js"></script>
+    <!-- start: JavaScript Event Handlers for this page -->
+    <script src="~/Content/cms/assets/js/ui-elements.js"></script>
+    <script>
+    jQuery(document).ready(function () {
+    Main.init();
+   
+    loaduserinfo();
+    });
+    </script> 
+
+    @RenderSection("scripts", required: false)
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+﻿
+@using Recommender_system.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = null;
+    //var languages = (List<DBLayer.LANGUAGE>)ViewBag.Languages;
+    var returnUrl = ViewBag.ReturnUrl;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SR</title>
+    <link rel="stylesheet" href="~/Content/cms/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/cms/vendor/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/cms/vendor/themify-icons/themify-icons.min.css">
+    <link href="~/Content/cms/vendor/animate.css/animate.min.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/perfect-scrollbar/perfect-scrollbar.min.css" rel="stylesheet" media="screen">
+    <link href="~/Content/cms/vendor/switchery/switchery.min.css" rel="stylesheet" media="screen">
+    <!-- end: MAIN CSS -->
+    <!-- start: CLIP-TWO CSS -->
+    <link rel="stylesheet" href="~/Content/cms/assets/css/styles.css">
+    <link rel="stylesheet" href="~/Content/cms/assets/css/plugins.css">
+    <link rel="stylesheet" href="~/Content/cms/themes/theme-1.css" id="skin_color" />
+    <style>
+        @@import url('https://fonts.googleapis.com/css?family=Mukta');
+
+        @@media only screen and (min-width:900px) and (max-width:1136px) {
+            .register-info-box {
+                top: 0%;
+            }
+        }
+    </style>
+
+</head>
+<body class="login">
+
+    <!-- start: LOGIN -->
+    <div class="row">
+        <div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+            <div class="logo margin-top-30">
+                @*HRSMSH*@
+            </div>
+            <!-- start: LOGIN BOX -->
+            <br />
+            <br />
+            <br />
+            <div class="box-login margin-top-30">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = returnUrl }, FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <fieldset>
+                        <legend>
+                            Kyçu
+                        </legend>
+                        <p>
+                            Shenoni emrin
+                        </p>
+                        <div class="form-group">
+                            <span class="input-icon">
+                                @Html.TextBoxFor(m => m.Email, new { @placeholder = "Përdoruesi", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                <i class="fa fa-user"></i>
+                            </span>
+                        </div>
+                        <div class="form-group form-actions">
+                            <span class="input-icon">
+                                @Html.PasswordFor(m => m.Password, new { placeholder = "Fjalëkalimi", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                <i class="fa fa-lock"></i>
+
+                            </span>
+                        </div>
+                        <div class="form-actions">
+
+                            <button type="submit" class="btn btn-primary pull-right">
+                                Login <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                        <div class="new-account">
+                            @Html.ActionLink("Krijo llogari", "UserRegister", "Account") &nbsp; &nbsp; &nbsp; &nbsp; 
+ 
+                        </div>
+                    </fieldset>
+                }
+
+
+                <!-- start: COPYRIGHT -->
+                <div class="copyright">
+                    &copy; <span class="current-year"></span><span class="text-bold text-uppercase"> SR</span>. <span>All rights reserved</span>
+                </div>
+                <!-- end: COPYRIGHT -->
+            </div>
+            <!-- end: LOGIN BOX -->
+        </div>
+    </div>
+ 
+    <div class="modal fade" id="forgotpass">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Keni harruar fjalekalimin</h4>
+                </div>
+                <div class="modal-body">
+
+                    <input type="text" class="form-control" id="email" placeholder="Sheno email-in qe jeni regjistruar">
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-primary" onclick="sentforgotpasswordlink(this)">Dergo </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+</body>
+ 
+
+
+</html>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/Content/cms/vendor/jquery/jquery.min.js")
+@Scripts.Render("~/Content/cms/vendor/bootstrap/js/bootstrap.min.js")
+@Scripts.Render("~/Content/cms/vendor/modernizr/modernizr.js")
+@Scripts.Render("~/Content/cms/vendor/jquery-cookie/jquery.cookie.js")
+@Scripts.Render("~/Content/cms/vendor/perfect-scrollbar/perfect-scrollbar.min.js")
+@Scripts.Render("~/Content/cms/vendor/switchery/switchery.min.js")
+@Scripts.Render("~/Content/cms/vendor/jquery-validation/jquery.validate.min.js")
+@Scripts.Render("~/Content/cms/assets/js/main.js")
+@Scripts.Render("~/Content/cms/assets/js/login.js")
+<!-- /.login-box -->
+
+<script type="text/javascript">
+ 
+
+</script>
+
+

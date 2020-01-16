@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Recommender_system.Models.MEAL>
+
+
+    @foreach (var item in Model)
+    {
+           <div class="panel panel-white">
+                <div class="panel-heading border-light ">
+                    <h4 style="font-family: 'Anton', sans-serif; font-weight:bold; text-transform: uppercase;"> Rekomandimi i dhene sipas vleresimeve tuaja!</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                                <div class="col-md-12">
+                                    <div class="block">
+                                                <div class="span4">
+                                                    <img class="img-left" src="@item.ImgPath " style="width:350px;" />
+                                                    <div class="content-heading"><h3>@item.FoodName</h3></div>
+                                                    <p><i>Description: </i> @item.FoodDescription</p>
+                                                    <p><i>Ingredients: </i> @item.Tags</p>
+                                                </div>
+                                    </div>
+                                </div>
+                         
+                    </div>
+                </div>
+            </div>
+        }
+

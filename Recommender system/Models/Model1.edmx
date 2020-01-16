@@ -1,0 +1,469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EventType" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TableName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RecordID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ColumName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NewValue" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OldValue" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="Created_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEALS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FoodName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FoodDescription" Type="nvarchar" MaxLength="200" />
+          <Property Name="Tags" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ImgPath" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="RATINGS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RatingValue" Type="int" />
+          <Property Name="RatingDescription" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FoodName" Type="nvarchar" MaxLength="200" />
+          <Property Name="FoodIngredients" Type="nvarchar" MaxLength="1000" />
+          <Property Name="NumberofIngredients" Type="int" />
+          <Property Name="FoodDescription" Type="nvarchar" MaxLength="200" />
+          <Property Name="ImgPath" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SYS_MENU">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="ActionName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Controller" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Pershkrimi" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="HtmlClass" Type="nvarchar" MaxLength="50" />
+          <Property Name="Renditja" Type="int" />
+        </EntityType>
+        <EntityType Name="USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Emri" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mbiemri" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Adresa" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="RandomNumber" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Password" Type="binary" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USER_DATA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="BMI" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BloodGlucose" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="HasDiabet" Type="bit" />
+        </EntityType>
+        <EntityType Name="USER_RATING">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RatingID" Type="int" Nullable="false" />
+          <Property Name="MealID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_User_Data_USER">
+          <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+          <End Role="USER_DATA" Type="Self.USER_DATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USER_DATA">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_RATING_MEALS">
+          <End Role="MEALS" Type="Self.MEALS" Multiplicity="1" />
+          <End Role="USER_RATING" Type="Self.USER_RATING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEALS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USER_RATING">
+              <PropertyRef Name="MealID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_RATING_Ratings">
+          <End Role="RATINGS" Type="Self.RATINGS" Multiplicity="1" />
+          <End Role="USER_RATING" Type="Self.USER_RATING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RATINGS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USER_RATING">
+              <PropertyRef Name="RatingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_RATING_USER">
+          <End Role="USER" Type="Self.USER" Multiplicity="1" />
+          <End Role="USER_RATING" Type="Self.USER_RATING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USER_RATING">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SRModelStoreContainer">
+          <EntitySet Name="LOG" EntityType="Self.LOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEALS" EntityType="Self.MEALS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RATINGS" EntityType="Self.RATINGS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SR" EntityType="Self.SR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_MENU" EntityType="Self.SYS_MENU" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USER_DATA" EntityType="Self.USER_DATA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USER_RATING" EntityType="Self.USER_RATING" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_User_Data_USER" Association="Self.FK_User_Data_USER">
+            <End Role="USER" EntitySet="USER" />
+            <End Role="USER_DATA" EntitySet="USER_DATA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RATING_MEALS" Association="Self.FK_USER_RATING_MEALS">
+            <End Role="MEALS" EntitySet="MEALS" />
+            <End Role="USER_RATING" EntitySet="USER_RATING" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RATING_Ratings" Association="Self.FK_USER_RATING_Ratings">
+            <End Role="RATINGS" EntitySet="RATINGS" />
+            <End Role="USER_RATING" EntitySet="USER_RATING" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RATING_USER" Association="Self.FK_USER_RATING_USER">
+            <End Role="USER" EntitySet="USER" />
+            <End Role="USER_RATING" EntitySet="USER_RATING" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LOGs" EntityType="SRModel.LOG" />
+          <EntitySet Name="MEALS" EntityType="SRModel.MEAL" />
+          <EntitySet Name="RATINGS" EntityType="SRModel.RATING" />
+          <EntitySet Name="SRs" EntityType="SRModel.SR" />
+          <EntitySet Name="SYS_MENU" EntityType="SRModel.SYS_MENU" />
+          <EntitySet Name="USERs" EntityType="SRModel.USER" />
+          <EntitySet Name="USER_DATA" EntityType="SRModel.USER_DATA" />
+          <EntitySet Name="USER_RATING" EntityType="SRModel.USER_RATING" />
+          <AssociationSet Name="FK_USER_RATING_MEALS" Association="SRModel.FK_USER_RATING_MEALS">
+            <End Role="MEAL" EntitySet="MEALS" />
+            <End Role="USER_RATING" EntitySet="USER_RATING" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RATING_Ratings" Association="SRModel.FK_USER_RATING_Ratings">
+            <End Role="RATING" EntitySet="RATINGS" />
+            <End Role="USER_RATING" EntitySet="USER_RATING" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Data_USER" Association="SRModel.FK_User_Data_USER">
+            <End Role="USER" EntitySet="USERs" />
+            <End Role="USER_DATA" EntitySet="USER_DATA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_RATING_USER" Association="SRModel.FK_USER_RATING_USER">
+            <End Role="USER" EntitySet="USERs" />
+            <End Role="USER_RATING" EntitySet="USER_RATING" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="LOG">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogID" Type="Guid" Nullable="false" />
+          <Property Name="EventType" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TableName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RecordID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ColumName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NewValue" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OldValue" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="Created_date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="MEAL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FoodName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FoodDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Tags" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ImgPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="USER_RATING" Relationship="SRModel.FK_USER_RATING_MEALS" FromRole="MEAL" ToRole="USER_RATING" />
+        </EntityType>
+        <EntityType Name="RATING">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RatingValue" Type="Int32" />
+          <Property Name="RatingDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="USER_RATING" Relationship="SRModel.FK_USER_RATING_Ratings" FromRole="RATING" ToRole="USER_RATING" />
+        </EntityType>
+        <EntityType Name="SR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FoodName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FoodIngredients" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NumberofIngredients" Type="Int32" />
+          <Property Name="FoodDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ImgPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SYS_MENU">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="ActionName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Controller" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Pershkrimi" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="HtmlClass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Renditja" Type="Int32" />
+        </EntityType>
+        <EntityType Name="USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Emri" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Mbiemri" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Adresa" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="RandomNumber" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="Binary" Nullable="false" MaxLength="100" FixedLength="true" />
+          <NavigationProperty Name="USER_DATA" Relationship="SRModel.FK_User_Data_USER" FromRole="USER" ToRole="USER_DATA" />
+          <NavigationProperty Name="USER_RATING" Relationship="SRModel.FK_USER_RATING_USER" FromRole="USER" ToRole="USER_RATING" />
+        </EntityType>
+        <EntityType Name="USER_DATA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="BMI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BloodGlucose" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HasDiabet" Type="Boolean" />
+          <NavigationProperty Name="USER" Relationship="SRModel.FK_User_Data_USER" FromRole="USER_DATA" ToRole="USER" />
+        </EntityType>
+        <EntityType Name="USER_RATING">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="RatingID" Type="Int32" Nullable="false" />
+          <Property Name="MealID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MEAL" Relationship="SRModel.FK_USER_RATING_MEALS" FromRole="USER_RATING" ToRole="MEAL" />
+          <NavigationProperty Name="RATING" Relationship="SRModel.FK_USER_RATING_Ratings" FromRole="USER_RATING" ToRole="RATING" />
+          <NavigationProperty Name="USER" Relationship="SRModel.FK_USER_RATING_USER" FromRole="USER_RATING" ToRole="USER" />
+        </EntityType>
+        <Association Name="FK_USER_RATING_MEALS">
+          <End Type="SRModel.MEAL" Role="MEAL" Multiplicity="1" />
+          <End Type="SRModel.USER_RATING" Role="USER_RATING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEAL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USER_RATING">
+              <PropertyRef Name="MealID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_RATING_Ratings">
+          <End Type="SRModel.RATING" Role="RATING" Multiplicity="1" />
+          <End Type="SRModel.USER_RATING" Role="USER_RATING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RATING">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USER_RATING">
+              <PropertyRef Name="RatingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Data_USER">
+          <End Type="SRModel.USER" Role="USER" Multiplicity="0..1" />
+          <End Type="SRModel.USER_DATA" Role="USER_DATA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USER_DATA">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_RATING_USER">
+          <End Type="SRModel.USER" Role="USER" Multiplicity="1" />
+          <End Type="SRModel.USER_RATING" Role="USER_RATING" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USER_RATING">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SRModelStoreContainer" CdmEntityContainer="SREntities">
+          <EntitySetMapping Name="LOGs">
+            <EntityTypeMapping TypeName="SRModel.LOG">
+              <MappingFragment StoreEntitySet="LOG">
+                <ScalarProperty Name="Created_date" ColumnName="Created_date" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+                <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+                <ScalarProperty Name="ColumName" ColumnName="ColumName" />
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="EventType" ColumnName="EventType" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEALS">
+            <EntityTypeMapping TypeName="SRModel.MEAL">
+              <MappingFragment StoreEntitySet="MEALS">
+                <ScalarProperty Name="ImgPath" ColumnName="ImgPath" />
+                <ScalarProperty Name="Tags" ColumnName="Tags" />
+                <ScalarProperty Name="FoodDescription" ColumnName="FoodDescription" />
+                <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RATINGS">
+            <EntityTypeMapping TypeName="SRModel.RATING">
+              <MappingFragment StoreEntitySet="RATINGS">
+                <ScalarProperty Name="RatingDescription" ColumnName="RatingDescription" />
+                <ScalarProperty Name="RatingValue" ColumnName="RatingValue" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SRs">
+            <EntityTypeMapping TypeName="SRModel.SR">
+              <MappingFragment StoreEntitySet="SR">
+                <ScalarProperty Name="ImgPath" ColumnName="ImgPath" />
+                <ScalarProperty Name="FoodDescription" ColumnName="FoodDescription" />
+                <ScalarProperty Name="NumberofIngredients" ColumnName="NumberofIngredients" />
+                <ScalarProperty Name="FoodIngredients" ColumnName="FoodIngredients" />
+                <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_MENU">
+            <EntityTypeMapping TypeName="SRModel.SYS_MENU">
+              <MappingFragment StoreEntitySet="SYS_MENU">
+                <ScalarProperty Name="Renditja" ColumnName="Renditja" />
+                <ScalarProperty Name="HtmlClass" ColumnName="HtmlClass" />
+                <ScalarProperty Name="Pershkrimi" ColumnName="Pershkrimi" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERs">
+            <EntityTypeMapping TypeName="SRModel.USER">
+              <MappingFragment StoreEntitySet="USER">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RandomNumber" ColumnName="RandomNumber" />
+                <ScalarProperty Name="Adresa" ColumnName="Adresa" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mbiemri" ColumnName="Mbiemri" />
+                <ScalarProperty Name="Emri" ColumnName="Emri" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USER_DATA">
+            <EntityTypeMapping TypeName="SRModel.USER_DATA">
+              <MappingFragment StoreEntitySet="USER_DATA">
+                <ScalarProperty Name="HasDiabet" ColumnName="HasDiabet" />
+                <ScalarProperty Name="BloodGlucose" ColumnName="BloodGlucose" />
+                <ScalarProperty Name="BMI" ColumnName="BMI" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USER_RATING">
+            <EntityTypeMapping TypeName="SRModel.USER_RATING">
+              <MappingFragment StoreEntitySet="USER_RATING">
+                <ScalarProperty Name="MealID" ColumnName="MealID" />
+                <ScalarProperty Name="RatingID" ColumnName="RatingID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

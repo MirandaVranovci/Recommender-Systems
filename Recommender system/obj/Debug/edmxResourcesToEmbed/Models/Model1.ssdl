@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="LOG">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LogID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="EventType" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="TableName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="RecordID" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="ColumName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="NewValue" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="OldValue" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="CreatedBy" Type="int" Nullable="false" />
+    <Property Name="Created_date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MEALS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FoodName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FoodDescription" Type="nvarchar" MaxLength="200" />
+    <Property Name="Tags" Type="nvarchar" MaxLength="1000" />
+    <Property Name="ImgPath" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="RATINGS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RatingValue" Type="int" />
+    <Property Name="RatingDescription" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="SR">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FoodName" Type="nvarchar" MaxLength="200" />
+    <Property Name="FoodIngredients" Type="nvarchar" MaxLength="1000" />
+    <Property Name="NumberofIngredients" Type="int" />
+    <Property Name="FoodDescription" Type="nvarchar" MaxLength="200" />
+    <Property Name="ImgPath" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="SYS_MENU">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParentID" Type="int" />
+    <Property Name="ActionName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Controller" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Pershkrimi" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="HtmlClass" Type="nvarchar" MaxLength="50" />
+    <Property Name="Renditja" Type="int" />
+  </EntityType>
+  <EntityType Name="USER">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Emri" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Mbiemri" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Adresa" Type="nchar" MaxLength="100" Nullable="false" />
+    <Property Name="RandomNumber" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Password" Type="binary" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="USER_DATA">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="BMI" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="BloodGlucose" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="HasDiabet" Type="bit" />
+  </EntityType>
+  <EntityType Name="USER_RATING">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="RatingID" Type="int" Nullable="false" />
+    <Property Name="MealID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_User_Data_USER">
+    <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+    <End Role="USER_DATA" Type="Self.USER_DATA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER_DATA">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_USER_RATING_MEALS">
+    <End Role="MEALS" Type="Self.MEALS" Multiplicity="1" />
+    <End Role="USER_RATING" Type="Self.USER_RATING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MEALS">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER_RATING">
+        <PropertyRef Name="MealID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_USER_RATING_Ratings">
+    <End Role="RATINGS" Type="Self.RATINGS" Multiplicity="1" />
+    <End Role="USER_RATING" Type="Self.USER_RATING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RATINGS">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER_RATING">
+        <PropertyRef Name="RatingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_USER_RATING_USER">
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
+    <End Role="USER_RATING" Type="Self.USER_RATING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER_RATING">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SRModelStoreContainer">
+    <EntitySet Name="LOG" EntityType="Self.LOG" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MEALS" EntityType="Self.MEALS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RATINGS" EntityType="Self.RATINGS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SR" EntityType="Self.SR" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SYS_MENU" EntityType="Self.SYS_MENU" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USER_DATA" EntityType="Self.USER_DATA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USER_RATING" EntityType="Self.USER_RATING" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_User_Data_USER" Association="Self.FK_User_Data_USER">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="USER_DATA" EntitySet="USER_DATA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USER_RATING_MEALS" Association="Self.FK_USER_RATING_MEALS">
+      <End Role="MEALS" EntitySet="MEALS" />
+      <End Role="USER_RATING" EntitySet="USER_RATING" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USER_RATING_Ratings" Association="Self.FK_USER_RATING_Ratings">
+      <End Role="RATINGS" EntitySet="RATINGS" />
+      <End Role="USER_RATING" EntitySet="USER_RATING" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USER_RATING_USER" Association="Self.FK_USER_RATING_USER">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="USER_RATING" EntitySet="USER_RATING" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

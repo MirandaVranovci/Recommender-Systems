@@ -1,0 +1,121 @@
+﻿@*@model dynamic
+    @{
+        DBLayer.USER users = Model.User;
+        Plsk.Models.ChangePasswordViewModel psw = Model.Psw;
+    }*@
+@model Recommender_system.Models.ProfiliViewModel
+@{
+    var users = Model.users;
+    var psw = Model.psw;
+    string text = (string)ViewBag.Text;
+}
+@{
+    ViewBag.Title = "Profili";
+
+}
+<p class=@text>@ViewBag.StatusMessage</p>
+
+<div class="panel panel-white">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#personale" data-toggle="tab">Te dhenat personale</a></li>
+                    <li><a href="#psw" data-toggle="tab">Ndrysho fjalekalimin</a></li>
+             
+                </ul>
+                <div class="tab-content">
+                    <div class="@ViewBag.Active tab-pane" id="personale">
+                        <div class="panel-body">
+                            @using (Html.BeginForm("ProfiliPOST", "Manage", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(m => Model.users.ID)
+                                
+
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => Model.users.Emri, new { @class = "" })
+                                        @Html.TextBoxFor(m => Model.users.Emri, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => users.Emri, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => Model.users.Mbiemri, new { @class = "" })
+                                        @Html.TextBoxFor(m => Model.users.Mbiemri, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                         
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => Model.users.Adresa, new { @class = "" })
+                                        @Html.TextBoxFor(m => Model.users.Adresa, new { @class = "form-control" })
+                                    </div>
+                                </div>
+               
+                                @*<div class="form-group">
+                                        @Html.LabelFor(m => Model.users.Email, new { @class = "" })
+                                        @Html.TextBoxFor(m => Model.users.Email, new { @class = "form-control" })
+                                    </div>*@
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <button type="submit" title="Ruaj" class="btn btn-primary btn-flat butoniFlat btn-sm">
+                                            <i class="fa fa-check" style="font-size:1.3em"></i>&nbsp;Ruaj
+                                        </button>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="psw">
+                        <div class="panel-body">
+                            @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new
+                            {@*@class = "form-horizontal",*@ role = "form"
+                        }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => Model.psw.ID)
+
+
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="symbol required"></span>
+                                    @Html.LabelFor(m => Model.psw.OldPassword, "Fjalëkalimi i tanishëm", new { @class = "" })
+                                    @Html.PasswordFor(m => Model.psw.OldPassword, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="symbol required"></span>
+                                    @Html.LabelFor(m => Model.psw.NewPassword, "Fjalëkalimi i ri", new { @class = "" })
+                                    @Html.PasswordFor(m => Model.psw.NewPassword, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="symbol required"></span>
+                                    @Html.LabelFor(m => Model.psw.ConfirmPassword, "Konfirmo fjalëkalimin e ri", new { @class = "" })
+                                    @Html.PasswordFor(m => Model.psw.ConfirmPassword, new { @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <input type="submit" value="Ndrysho" class="btn btn-primary btn-flat btn-sm" />
+                                </div>
+                            </div>
+
+                        }
+                        </div>
+                        <p class="text-danger">Fjalëkalimi duhet të përmbajë së paku 6 karaktere, një shkronjë të madhe, një numër dhe një simbol</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

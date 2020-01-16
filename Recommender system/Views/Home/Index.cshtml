@@ -1,0 +1,252 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="wrap-content container" id="container">
+    <!-- start: DASHBOARD TITLE -->
+    <section id="page-title" class="padding-top-15 padding-bottom-15">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 class="mainTitle">Semundja e diabetit</h1>
+
+            </div>
+            <div class="col-sm-6">
+                <!-- start: MINI STATS WITH SPARKLINE -->
+                <ul class="mini-stats pull-right">
+                    <li>
+                        <div class="sparkline-1">
+                            <span></span>
+                        </div>
+                        <div class="values">
+                            <strong class="text-dark">19300</strong>
+                            <p class="text-small no-margin">
+                                Nen moshen 20
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sparkline-2">
+                            <span></span>
+                        </div>
+                        <div class="values">
+                            <strong class="text-dark">&#36;327 billion</strong>
+                            <p class="text-small no-margin">
+                                Kosti
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sparkline-3">
+                            <span></span>
+                        </div>
+                        <div class="values">
+                            <strong class="text-dark">79535</strong>
+                            <p class="text-small no-margin">
+                                Vdekjet ne vitin 2018
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+                <!-- end: MINI STATS WITH SPARKLINE -->
+            </div>
+        </div>
+    </section>
+    <!-- end: DASHBOARD TITLE -->
+    <!-- start: FEATURED BOX LINKS -->
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-white no-radius text-center">
+                    <div class="panel-body">
+                        <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-heartbeat fa-stack-1x fa-inverse"></i> </span>
+
+                        <h2 class="StepTitle">Diabeti Tipi 1</h2>
+                        <p class="text-small">
+                            Sistemi imunitar i trupit sulmon dhe shkatërron qelizat që prodhojnë insulinë ose shumë pak ose aspak insulinë prodhohet nga pankreasi
+                        </p>
+                        <p class="links cl-effect-1">
+                            <a href>
+
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-white no-radius text-center">
+                    <div class="panel-body">
+                        <span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-stethoscope  fa-stack-1x fa-inverse"></i> </span>
+
+                        <h2 class="StepTitle">Diabeti Tipi 2</h2>
+                        <p class="text-small">
+                            Trupi nuk prodhon insulinë të mjaftueshme, ose qelizat e trupit nuk reagojnë ndaj insulinës
+                        </p>
+                        <p class="cl-effect-1">
+                            <a href>
+
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- end: FEATURED BOX LINKS -->
+    <!-- start: FIRST SECTION -->
+    <div class="container-fluid container-fullw padding-bottom-10">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="margin-bottom-20">
+                            Një pjesë e madhe e menaxhimit të diabetit tip 2  dhe te tipit 1,
+                            është duke zhvilluar një dietë të shëndetshme. <br>
+                            Ju duhet të hani diçka të qëndrueshme që ju ndihmon
+                            të ndjeheni më mirë dhe akoma ju bën të ndjeheni të lumtur dhe të ushqyer.
+                            Mos harroni, është një proces.
+                            Përpiquni të gjeni këshilla të dobishme dhe
+                            plane diete që i përshtaten më së miri stilit të jetës tuaj.Një dietë diabetike nuk ka pse të jetë e ndërlikuar dhe nuk duhet të hiqni dorë nga të gjitha ushqimet tuaja të preferuara.
+                        </p>
+                        <p>
+                        </p>
+                        <p>
+                        </p>
+                        @*<div id="barLegend" class="chart-legend"><ul class="bar-legend"><li><span style="background-color:rgba(220,220,220,0.5)"></span>Meshkuj</li><li><span style="background-color:rgba(151,187,205,0.5)"></span>Femra</li></ul></div>*@
+                        <p></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="~/Content/cms/assets/images/food1.jpg" style="width: 100%;" />
+
+                        @*<canvas id="barChart" class="full-width" width="530" height="265" style="width: 530px; height: 265px;"></canvas>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end: FIRST SECTION -->
+    <!-- start: SECOND SECTION -->
+    <div class="container-fluid container-fullw bg-white">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-white no-radius">
+                    <canvas id="barChart" class="full-width" width="530" height="265" style="width: 530px; height: 265px;"></canvas>
+                    <div id="barLegend" class="chart-legend">
+                        <ul class="tc-chart-js-legend" id="menu">
+                            <li><span style="background-color:rgba(220,220,220,0.5)"></span>Meshkuj</li>
+                            <li><span style="background-color:rgba(151,187,205,0.5)"></span>Femra</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-white no-radius">
+                    <div class="panel-heading border-light">
+                        Pacienta te prekur nga diabeti
+                    </div>
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <canvas id="chart3" class="full-width" width="300" height="150" style="width: 300px; height: 150px;"></canvas>
+
+                        </div>
+                        <div class="margin-top-20 text-center legend-xs inline">
+                            <div id="chart3Legend" class="chart-legend"></div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="clearfix padding-5 space5">
+                            <div class="col-xs-6 text-center no-padding">
+                                <div class="border-right border-dark">
+                                    <span class="text-bold block text-extra-large">95%</span>
+                                    <span class="text-light">Tipi 2</span>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 text-center no-padding">
+                                <div class="border-right border-dark">
+                                    <span class="text-bold block text-extra-large">5%</span>
+                                    <span class="text-light">Tipi 1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end: FOURTH SECTION -->
+</div>
+@section Scripts
+ {
+    <script src="~/Content/cms/assets/js/charts.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+             
+            Index.init();
+            barChartHandler();
+
+        });
+        var barChartHandler = function () {
+            var options = {
+
+                // Sets the chart to be responsive
+                responsive: true,
+
+                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+                scaleBeginAtZero: true,
+
+                //Boolean - Whether grid lines are shown across the chart
+                scaleShowGridLines: true,
+
+                //String - Colour of the grid lines
+                scaleGridLineColor: "rgba(0,0,0,.05)",
+
+                //Number - Width of the grid lines
+                scaleGridLineWidth: 1,
+
+                //Boolean - If there is a stroke on each bar
+                barShowStroke: true,
+
+                //Number - Pixel width of the bar stroke
+                barStrokeWidth: 2,
+
+                //Number - Spacing between each of the X value sets
+                barValueSpacing: 5,
+
+                //Number - Spacing between data sets within X values
+                barDatasetSpacing: 1,
+
+                //String - A legend template
+                legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
+            };
+            var data = {
+                labels: ["0-39", "40-49", "50-59", "60-69", "70-79", "80+"],
+                datasets: [{
+                    label: "Meshkuj",
+                    fillColor: "rgba(220,220,220,0.5)",
+                    strokeColor: "rgba(220,220,220,0.8)",
+                    highlightFill: "rgba(220,220,220,0.75)",
+                    highlightStroke: "rgba(220,220,220,1)",
+                    data: [8, 67, 143, 222, 283, 273]
+                }, {
+                    label: "Femra",
+                    fillColor: "rgba(151,187,205,0.5)",
+                    strokeColor: "rgba(151,187,205,0.8)",
+                    highlightFill: "rgba(151,187,205,0.75)",
+                    highlightStroke: "rgba(151,187,205,1)",
+                    data: [14, 44, 82, 126, 169, 165]
+                }]
+            };
+
+            // Get context with jQuery - using jQuery's .get() method.
+            var ctx = $("#barChart").get(0).getContext("2d");
+            // This will get the first returned node in the jQuery collection.
+            var barChart = new Chart(ctx).Bar(data, options);
+            ;
+            //generate the legend
+            var legend = barChart.generateLegend();
+            //and append it to your page somewhere
+
+        };
+    </script>
+}
+

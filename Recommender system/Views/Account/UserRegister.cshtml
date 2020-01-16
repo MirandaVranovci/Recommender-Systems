@@ -1,0 +1,383 @@
+﻿
+@using Recommender_system.Models
+@using System.Configuration;
+@model Recommender_system.Models.RegisterViewModelUser
+@{
+    Layout = null;
+    var ID = ViewBag.UserIDCode;
+    var returnUrl = ViewBag.ReturnUrl;   
+}
+<!DOCTYPE html>
+<html>
+<head> 
+    <link rel="stylesheet" href="~/Content/cms/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/cms/vendor/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/cms/assets/css/styles.css">
+    <link rel="stylesheet" href="~/Content/cms/themes/theme-1.css" id="skin_color" /> 
+    <link href="~/Content/cms/vendor/toastr/toastr.min.css" rel="stylesheet" media="screen"> 
+</head>
+<body class="login">
+    <!-- start: REGISTRATION -->
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="main-login col-md-4  ">
+            <div class="box-register"> 
+                <div id="showmessage">
+
+                </div> 
+                <form class="form-register" id="forma">
+                    <fieldset>
+                        <legend>
+                            Krijo llogari
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-6" data-step="6" data-intro="Këtu duhet duhet t'a shenoni emrin tuaj" data-position='right' data-scrollTo='tooltip' data-toggle="tooltip">
+                                <div class="form-group has-feedback">
+                                    <label class="control-label">
+                                        Emri <span class="symbol required"></span>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.Emri, "", new { placeholder = "", @class = "form-control required" })
+                                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6" data-step="7" data-intro="Këtu duhet duhet t'a shenoni mbiemrin tuaj" data-position='right' data-scrollTo='tooltip' data-toggle="tooltip">
+                                <div class="form-group has-feedback">
+                                    <label class="control-label">
+                                        Mbiemri <span class="symbol required"></span>
+                                    </label>
+                                    @Html.TextBoxFor(model => model.Mbiemri, "", new { placeholder = "", @class = "form-control required" })
+                                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback" data-step="8" data-intro="Këtu duhet duhet t'a shenoni emailin tuaj" data-position='right' data-scrollTo='tooltip' data-toggle="tooltip">
+                            <label class="control-label">
+                                Email <span class="symbol required"></span>
+                            </label>
+                            @Html.TextBoxFor(model => model.EmailAdresa, "", new { placeholder = "", @class = "form-control required" })
+
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        </div>
+                        <div class="form-group has-feedback" data-step="8" data-intro="Këtu duhet duhet t'a shenoni emailin tuaj" data-position='right' data-scrollTo='tooltip' data-toggle="tooltip">
+                            <label class="control-label">
+                                Adresa <span class="symbol required"></span>
+                            </label> 
+                            @Html.TextBoxFor(model => model.Adresa, "", new { placeholder = "", @class = "form-control required" })
+
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        </div>
+                        <div id="llojispecializant" class="hidden">
+
+                        </div>
+                        <div class="form-group has-feedback" data-step="9" data-intro="Këtu duhet duhet t'a shenoni passwordin e userit tuaj" data-position='right' data-scrollTo='tooltip' data-toggle="tooltip">
+                            <label class="control-label">
+                                Password <span class="symbol required"></span>
+                            </label>
+                            @Html.PasswordFor(model => model.UserPassword, new { @class = "form-control required", @placeholder = "Password" })
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+                        <div class="form-group has-feedback" data-step="10" data-intro="Këtu duhet duhet t'a konfirmoni passwordin shenuar me pare" data-position='right' data-scrollTo='tooltip' data-toggle="tooltip">
+                            <label class="control-label">
+                                Konfirmimi i password-it <span class="symbol required"></span>
+                            </label>
+                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control required", @placeholder = "Retype password" })
+
+                            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                        </div>
+
+
+
+                        <div class="row margin-top-20" data-step="12" data-intro="Kliko butonin dhe regjistrohu" data-position='right' data-scrollTo='tooltip' data-toggle="tooltip">
+                            <!-- /.col -->
+
+                            <div class="col-xs-4">
+                                <button type="button" class="btn btn-primary btn-block btn-flat" onclick="registeruser(this);">Register</button><br />
+                            </div>
+                            <!-- /.col -->
+
+                        </div>
+
+                    </fieldset>
+                </form>
+
+                <div class="copyright">
+                    &copy; <span class="current-year"></span><span class="text-bold text-uppercase"> SR</span>. <span>All rights reserved</span>
+                </div>
+            </div>
+        </div> 
+
+    </div>
+
+    <script src="~/Content/cms/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/cms/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/cms/vendor/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/Content/cms/vendor/toastr/toastr.min.js"></script>
+    <script src="~/Content/cms/assets/js/main.js"></script>
+
+    <script src="~/Content/cms/assets/js/form-validation.js"></script>
+
+    <script src="~/Content/cms/assets/js/login.js"></script>
+    <script>
+        var toastCount;
+        var registeruser = function (btn) {
+            $("#forma").valid();
+            var obj = {
+                EmailAdresa: $("#EmailAdresa").val(),
+                Emri: $("#Emri").val(),
+                Mbiemri: $("#Mbiemri").val(),
+                UserPassword: $("#UserPassword").val(),
+                ConfirmPassword: $("#ConfirmPassword").val(), 
+                Adresa: $("#Adresa").val(), 
+            };
+
+            $.ajax({
+                url: "/Account/UserRegister_Post",
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                data: obj,
+                success: function (rs) {
+                    if (rs.Status) {
+                        alertswithaction(rs.Message, "success");
+                     //   $('#showmessage').append('<div id="alertdiv" class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span></button><strong>' + rs.Message + '</strong></div>')
+                        $("#EmailAdresa").val("");
+                        $("#Emri").val("");
+                        $("#Mbiemri").val("");
+                        $("#UserPassword").val("");
+                        $("#ConfirmPassword").val(""); 
+                        $("#Adresa").val(""); 
+                    }
+                    else {
+                        alerts(rs.Message, "error");
+          //              $('#showmessage').append('<div id="alertdiv" class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span></button><strong>' + rs.Message + '</strong></div>')
+                    }
+                    //location.href = "/Account/Login";
+                },
+                error: function (jqXHR, error, errorThrown) {
+                    if (jqXHR.status && jqXHR.status == 400) {
+                        console.log(jqXHR.responseText);
+                    } else {
+                        console.log("Something went wrong");
+                    }
+                }
+            });
+        }
+   
+        function alertswithaction(mesazhi, tipi) {
+            var shortCutFunction = tipi;
+            var msg = mesazhi;
+            var title = "Lajmerim nga sistemi";
+            var $showDuration = "2000";
+            var $hideDuration = "2000";
+            var $timeOut = "10000";
+            var $extendedTimeOut = "2000";
+            var $showEasing = "swing";
+            var $hideEasing = "linear";
+            var $showMethod = "fadeIn";
+            var $hideMethod = "fadeOut";
+            var toastIndex = toastCount++;
+
+            toastr.options = {
+                closeButton: true,
+                positionClass: "toast-top-right",
+                onclick: null
+            };
+            toastr.options.onclick = function () {
+                window.location = '/Account/Login';
+                //   alert('You can perform some custom action after a toast goes away');
+            };
+            if ($showDuration.length) {
+                toastr.options.showDuration = $showDuration;
+            }
+
+            if ($hideDuration.length) {
+                toastr.options.hideDuration = $hideDuration;
+            }
+
+            if ($timeOut.length) {
+                toastr.options.timeOut = $timeOut;
+            }
+
+            if ($extendedTimeOut.length) {
+                toastr.options.extendedTimeOut = $extendedTimeOut;
+            }
+
+            if ($showEasing.length) {
+                toastr.options.showEasing = $showEasing;
+            }
+
+            if ($hideEasing.length) {
+                toastr.options.hideEasing = $hideEasing;
+            }
+
+            if ($showMethod.length) {
+                toastr.options.showMethod = $showMethod;
+            }
+
+            if ($hideMethod.length) {
+                toastr.options.hideMethod = $hideMethod;
+            }
+
+
+            var $toast = toastr[shortCutFunction](msg, title);
+            // Wire up an event handler to a button in the toast, if it exists
+            $toastlast = $toast;
+        }
+
+        function alerts(mesazhi, tipi) {
+            var shortCutFunction = tipi;
+            var msg = mesazhi;
+            var title = "Lajmerim nga sistemi";
+            var $showDuration = "1000";
+            var $hideDuration = "1000";
+            var $timeOut = "5000";
+            var $extendedTimeOut = "1000";
+            var $showEasing = "swing";
+            var $hideEasing = "linear";
+            var $showMethod = "fadeIn";
+            var $hideMethod = "fadeOut";
+            var toastIndex = toastCount++;
+
+            toastr.options = {
+                closeButton: true,
+                positionClass: "toast-top-right",
+                onclick: null
+            };
+
+            if ($showDuration.length) {
+                toastr.options.showDuration = $showDuration;
+            }
+
+            if ($hideDuration.length) {
+                toastr.options.hideDuration = $hideDuration;
+            }
+
+            if ($timeOut.length) {
+                toastr.options.timeOut = $timeOut;
+            }
+
+            if ($extendedTimeOut.length) {
+                toastr.options.extendedTimeOut = $extendedTimeOut;
+            }
+
+            if ($showEasing.length) {
+                toastr.options.showEasing = $showEasing;
+            }
+
+            if ($hideEasing.length) {
+                toastr.options.hideEasing = $hideEasing;
+            }
+
+            if ($showMethod.length) {
+                toastr.options.showMethod = $showMethod;
+            }
+
+            if ($hideMethod.length) {
+                toastr.options.hideMethod = $hideMethod;
+            }
+
+
+            var $toast = toastr[shortCutFunction](msg, title);
+
+            $toastlast = $toast;
+        }
+    </script>
+    <script>
+
+
+
+
+        jQuery(document).ready(function () {
+            runValidator2();
+
+        });
+        var runValidator2 = function () {
+            var form2 = $('#forma');
+            var errorHandler2 = $('.errorHandler', form2);
+            var successHandler2 = $('.successHandler', form2);
+            $.validator.addMethod("getEditorValue", function () {
+                $("#editor1").val($('#form2 .summernote').code());
+                if ($("#editor1").val() != "" && $("#editor1").val().replace(/(<([^>]+)>)/ig, "") != "") {
+                    $('#editor1').val('');
+                    return true;
+                } else {
+                    return false;
+                }
+            }, 'This field is required.');
+            form2.validate({
+                errorElement: "span",
+                errorClass: 'help-block',
+                errorPlacement: function (error, element) {
+                    if (element.attr("type") == "radio" || element.attr("type") == "checkbox") {
+                        error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                    } else if (element.hasClass("ckeditor")) {
+                        error.appendTo($(element).closest('.form-group'));
+                    } else {
+                        error.insertAfter(element);
+
+                    }
+                },
+                ignore: "",
+                rules: {
+
+                    UserPassword: {
+                        required: true,
+
+                    },
+                    ConfirmPassword: {
+                        required: true,
+                        equalTo: "#UserPassword"
+
+                    },
+                    selectone: {
+                        required: true
+                    }
+                },
+                messages: {
+
+                    email: {
+                        required: "We need your email address to contact you",
+                        email: "Your email address must be in the format of name@domain.com"
+                    },
+                    services: {
+                        minlength: jQuery.validator.format("Please select  at least {0} types of Service")
+                    }
+                },
+                invalidHandler: function (event, validator) {
+                    successHandler2.hide();
+                    errorHandler2.show();
+                },
+                highlight: function (element) {
+                    $(element).closest('.help-block').removeClass('valid');
+
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error');
+
+                },
+                success: function (label, element) {
+                    label.addClass('help-block valid');
+
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+                },
+
+            });
+        };
+
+    </script> 
+
+
+
+</body>
+
+
+
+</html>
+
+
+

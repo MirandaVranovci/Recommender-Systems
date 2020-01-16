@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SRModelStoreContainer" CdmEntityContainer="SREntities">
+    <EntitySetMapping Name="LOGs">
+      <EntityTypeMapping TypeName="SRModel.LOG">
+        <MappingFragment StoreEntitySet="LOG">
+          <ScalarProperty Name="Created_date" ColumnName="Created_date" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="ColumName" ColumnName="ColumName" />
+          <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+          <ScalarProperty Name="TableName" ColumnName="TableName" />
+          <ScalarProperty Name="EventType" ColumnName="EventType" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MEALS">
+      <EntityTypeMapping TypeName="SRModel.MEAL">
+        <MappingFragment StoreEntitySet="MEALS">
+          <ScalarProperty Name="ImgPath" ColumnName="ImgPath" />
+          <ScalarProperty Name="Tags" ColumnName="Tags" />
+          <ScalarProperty Name="FoodDescription" ColumnName="FoodDescription" />
+          <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RATINGS">
+      <EntityTypeMapping TypeName="SRModel.RATING">
+        <MappingFragment StoreEntitySet="RATINGS">
+          <ScalarProperty Name="RatingDescription" ColumnName="RatingDescription" />
+          <ScalarProperty Name="RatingValue" ColumnName="RatingValue" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SRs">
+      <EntityTypeMapping TypeName="SRModel.SR">
+        <MappingFragment StoreEntitySet="SR">
+          <ScalarProperty Name="ImgPath" ColumnName="ImgPath" />
+          <ScalarProperty Name="FoodDescription" ColumnName="FoodDescription" />
+          <ScalarProperty Name="NumberofIngredients" ColumnName="NumberofIngredients" />
+          <ScalarProperty Name="FoodIngredients" ColumnName="FoodIngredients" />
+          <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SYS_MENU">
+      <EntityTypeMapping TypeName="SRModel.SYS_MENU">
+        <MappingFragment StoreEntitySet="SYS_MENU">
+          <ScalarProperty Name="Renditja" ColumnName="Renditja" />
+          <ScalarProperty Name="HtmlClass" ColumnName="HtmlClass" />
+          <ScalarProperty Name="Pershkrimi" ColumnName="Pershkrimi" />
+          <ScalarProperty Name="Controller" ColumnName="Controller" />
+          <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+          <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="USERs">
+      <EntityTypeMapping TypeName="SRModel.USER">
+        <MappingFragment StoreEntitySet="USER">
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RandomNumber" ColumnName="RandomNumber" />
+          <ScalarProperty Name="Adresa" ColumnName="Adresa" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Mbiemri" ColumnName="Mbiemri" />
+          <ScalarProperty Name="Emri" ColumnName="Emri" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="USER_DATA">
+      <EntityTypeMapping TypeName="SRModel.USER_DATA">
+        <MappingFragment StoreEntitySet="USER_DATA">
+          <ScalarProperty Name="HasDiabet" ColumnName="HasDiabet" />
+          <ScalarProperty Name="BloodGlucose" ColumnName="BloodGlucose" />
+          <ScalarProperty Name="BMI" ColumnName="BMI" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="USER_RATING">
+      <EntityTypeMapping TypeName="SRModel.USER_RATING">
+        <MappingFragment StoreEntitySet="USER_RATING">
+          <ScalarProperty Name="MealID" ColumnName="MealID" />
+          <ScalarProperty Name="RatingID" ColumnName="RatingID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

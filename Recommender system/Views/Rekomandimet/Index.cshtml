@@ -1,0 +1,163 @@
+﻿@model IEnumerable<Recommender_system.Models.MEAL>
+<style>
+    progress[value] {
+        width: 250px;
+        height: 20px;
+    }
+
+    .span4 img {
+        margin-right: 10px;
+    }
+
+    .span4 .img-left {
+        float: left;
+    }
+
+    .span4 .img-right {
+        float: right;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+
+
+    /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+</style>
+
+<div class="container-fluid container-fullw">
+    <form class="form-horizontal" id="form1">
+        <div class="alert alert-block alert-danger fade in" hidden>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="alert-heading margin-bottom-10"><i class="ti-close"></i> Error!</h4>
+            <p class="margin-bottom-10 gabim">
+
+            </p>
+
+        </div>
+        @foreach (var item in Model)
+        {
+
+            <div class="panel panel-white">
+                <div class="panel-heading border-light ">
+                    <h4 style="font-family: 'Anton', sans-serif; font-weight:bold; text-transform: uppercase;"> Vleresoni</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="block">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="span4">
+                                                    <img class="img-left" src="@item.ImgPath " style="width:350px;" />
+                                                    <div class="content-heading"><h3>@item.FoodName</h3></div>
+                                                    <p><i>Description: </i> @item.FoodDescription</p>
+                                                    <p><i>Ingredients: </i> @item.Tags</p>
+                                                    <br />
+                                                    <div class="margin-bottom-30 text-extra-large">
+
+                                                        <input type="hidden" class="rating-tooltip calc" data-filled="fa fa-star margin-right-5 text-yellow" data-empty="fa fa-star-o margin-right-5" data-id="@item.ID" />
+                                                        <span class="label label-success"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </form>
+
+    <!--modali-->
+    <!--endmodal-->
+
+    <div class="pull-right">
+        <button type="button" class="btn btn-success submit-cl" id="btn">Submit</button>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-info">Kthehu</a>
+    </div>
+</div>
+@section Scripts
+{
+
+
+    <script>
+        var ratingHandler = function () {
+
+            $('.rating, .rating-tooltip').each(function () {
+                $(this).val() > 0 ? $(this).next(".label").show().text($(this).val() || ' ') : $(this).next(".label").hide();
+            });
+            $('.rating-tooltip').rating({
+                extendSymbol: function (rate) {
+                    $(this).tooltip({
+                        container: 'body',
+                        placement: 'bottom',
+                        title: 'Rate ' + rate
+                    });
+                }
+            });
+            $('.rating, .rating-tooltip').on('change', function () {
+                $(this).next('.label').show().text($(this).val());
+
+            });
+
+        };
+        jQuery(document).ready(function () {
+
+            ratingHandler();
+
+        });
+    </script>
+    <script>
+
+        $("#btn").click(function () {
+            ruaj();
+        });
+        var ruaj = function () {
+            var jsondatacoll = [];
+            var i = 0;
+            $(".calc").each(function (index, element) {
+                var MealID = $(element).data("id");
+                var RatingID = $(this).val();
+                jsondatacoll.push({
+                    "MealID": MealID, "RatingID": RatingID
+                });
+            });
+
+            var obj = { meals_model: jsondatacoll };
+
+                $.ajax({
+                url: "/Rekomandimet/CalculatePearson",
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                data: obj,
+                success: function (rs) {
+                    if (rs.Status) {
+                         location.href='@Url.Action("WeightedAverageSum", "Rekomandimet")';
+                    }
+                     
+                },
+                error: function (jqXHR, error, errorThrown) {
+                    if (jqXHR.status && jqXHR.status == 400) {
+                        console.log(jqXHR.responseText);
+                    } else {
+                        console.log("Something went wrong");
+                    }
+                }
+            });
+        };
+
+
+    </script> 
+}

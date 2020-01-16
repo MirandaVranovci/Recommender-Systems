@@ -1,0 +1,166 @@
+﻿@model Recommender_system.Models.USER_DATA
+
+@Html.AntiForgeryToken()
+
+<div class="panel panel-white">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-horizontal">
+                    <fieldset>
+                        <legend>
+                            Jep të dhenat e  tua
+                        </legend>
+                        <div class="form-group">
+                            <label>
+                                Niveli i glukozës <span class="symbol required"></span>
+                            </label>
+                            <input type="text" class="form-control" id="Glukoza" placeholder="Niveli i glukozës" onkeypress="return isNumberKey(event)">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Gjatësia juaj (në cm) <span class="symbol required"></span>
+                            </label>
+                            <input type="text" placeholder="Gjatësia" id="Gjatesia" class="form-control" onkeypress="return isNumberKey(event)">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Pesha në kg <span class="symbol required"></span>
+                            </label>
+                            <input type="number" placeholder="Pesha" id="Pesha" class="form-control" onkeypress="return isNumberKey(event)">
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="button" onclick="regjistro(this)" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">Rekomando</button>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div id="timeline">
+                    <div class="timeline">
+                        <div class="spine"></div>
+                        <div class="date_separator" id="november">
+                            <span>FAKTE</span>
+                        </div>
+                        <ul class="columns">
+                            <li>
+                                <div class="timeline_element partition-white">
+                                    <div class="timeline_title">
+                                        <i class="fa fa-hospital-o fa-2x pull-left fa-border"></i>
+                                        <h4 class="light-text no-margin padding-5">Glukoza</h4>
+                                    </div>
+                                    <div class="timeline_content">
+                                        <b>Glukoza </b>është burimi kryesor i energjisë së trupit. Një hormon i quajtur insulinë ndihmon lëvizjen e glukozës nga qarkullimi i gjakut në qelizat. Glukoza e tepërt ose shumë e ulët në gjak mund të jetë një shenjë e një gjendjeje të rëndë mjekësore.
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="timeline_element partition-primary">
+                                    <div class="timeline_title">
+                                        <i class="fa fa-check-circle-o fa-2x pull-left fa-border"></i>
+                                        <h4 class="text-white no-margin padding-5">Gjatësia</h4>
+                                    </div>
+                                    <div class="timeline_content">
+                                        <p>
+                                            <b>Gjatësia </b> është një faktor i rëndësishëm në caktimin e IBM (pjestohet pesha me gjatësinë në katror e një individi). Sa më e madhe IBM, predispozitat për një person që të kete diabet janë më të mëdha. Pra duhet të ushqehemi shëndetshëm!
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="timeline_element partition-warning">
+                                    <div class="timeline_title">
+                                        <i class="fa fa-hospital-o fa-2x pull-left fa-border"></i>
+                                        <h4 class="light-text no-margin padding-5">Pesha</h4>
+                                    </div>
+                                    <div class="timeline_content">
+                                        <div class="row">
+                                            <div class="col-md-3 col-xs-4">
+                                                <img src="~/Content/cms/assets/images/download.png" alt="imazhi" class="img-responsive" />
+                                            </div>
+                                            <div class="col-md-9 col-xs-8">
+                                                <b>Reduktimi </b>  i kontrolluar i ushqimit ditor (reth 500kalori me pak ne dite), mundesisht i kombinuar me aktivitet fizik, mund te perbeje nje mase parandaluese per shfaqjen e diabetit tip 2 ne persona mbipeshe te predispozuar ose qe jane ne fazat fillestare te paradiabetit.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bootstrap" id="registerModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Rekomandimet në bazë të inputeve</h4>
+            </div>
+            <div class="modal-body" id="content">
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-danger btn-o pull-right btn-sm" data-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+<script>
+    var token = $('input[name="__RequestVerificationToken"]').val();
+    var regjistro = function (btn) {
+        var obj = {
+            __RequestVerificationToken: token, Gjatesia: $("#Gjatesia").val(), Pesha: $("#Pesha").val(), Glukoza: $("#Glukoza").val(),
+        };
+
+        $.ajax({
+            url: "/DataEntry/Create",
+            cache: false,
+            type: "POST",
+            dataType: "json",
+            data: obj,
+            success: function (rs) {
+                $("#content").load('@Url.Action("Rekomandimet", "DataEntry")');
+                $("#Pesha").val("");
+                $("#Glukoza").val("");
+                $("#Gjatesia").val("");
+            },
+            error: function (jqXHR, error, errorThrown) {
+                if (jqXHR.status && jqXHR.status == 400) {
+                    console.log(jqXHR.responseText);
+                } else {
+                    console.log("Something went wrong");
+                }
+            }
+        });
+    };
+
+
+</script>
+}
+
+
+
+
+<script>
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+</script>
